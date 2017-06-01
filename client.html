@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+	.box{
+		width: 300px;
+		height: 300px;
+		padding: 100px;
+		margin: 100px auto;
+		border: 30px solid #000;
+	}	
+	
+</style>
+</head>
+
+<body>
+
+<div class="box"></div>
+
+<script>
+	var box=document.getElementsByClassName("box")[0];
+	
+	//box.offsetWidth    包括border
+	//box.scrollWidth	不包括border
+	//box.clientWidth	不包括border
+	//console.log(box.offsetWidth);
+//	console.log(box.scrollWidth);
+//	console.log(box.clientWidth);
+	
+	
+	//box.offsetTop		距离已定位的父系盒子的上距离
+	//box.scrollTop		被卷去的高度
+	//box.clientTop		border的宽度
+	//console.log(box.offsetTop);
+//	console.log(box.scrollTop);
+//	console.log(box.clientTop);
+	
+	//console.log(window.innerHeight);
+//	console.log(document.body.clientHeight);
+//	console.log(document.documentElement.clientHeight);
+	
+	function client(){
+		if(window.innerHeight!==undefined){
+			return {
+				"width" : window.innerWidth,
+				"height" : window.innerHeight
+			}
+		}
+		else if(document.compatMode==="CSS1Compat"){
+				return {
+				"width" : document.documentElement.clientWidth,
+				"height" : document.documentElement.clientHeight
+			}
+		}
+		else{
+			return {
+				"width" : document.body.clientWidth,
+				"height" : document.body.clientHeight
+			}
+		}
+	}
+	
+	//console.log(client().height);
+	
+	
+	//屏幕的宽高
+	console.log(window.screen.height);
+	console.log(window.screen.width);
+</script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	body{
+		height:3000px;
+	}
+	.box:nth-of-type(1){
+		width: 100px;
+		height: 100px;
+		position: relative;
+		background-color: pink;
+		margin: 0;
+	}	
+	.box:nth-of-type(2){
+		width: 100px;
+		height: 100px;
+		position: relative;
+		left:400px;
+		background-color: yellowgreen;
+		margin: 0;
+	}
+</style>
+</head>
+
+<body>
+<button>移动200</button>
+<button>移动400</button>
+<div class="box"></div>
+<div class="box"></div>
+
+<script>
+	/*var btn=document.getElementsByTagName("button");
+	var box=document.getElementsByClassName("box")[0];
+	var box1=document.getElementsByClassName("box")[1];
+	var timer=null;
+	
+	btn[0].onclick=function(){
+		move(box,200,10);
+		
+	}
+	btn[1].onclick=function(){
+		move1(box1,0);
+		
+	}*/
+
+	function move(element,target,speed){        //元素，目标点，移动步长（速度）
+		var spe=target>element.offsetLeft ? speed : -speed;
+		clearInterval(element.timer);
+		element.timer=setInterval(function(){
+			var val=target-element.offsetLeft;
+			element.style.left=element.offsetLeft+spe+"px";
+			
+			if(Math.abs(val)<=Math.abs(spe)){
+				element.style.left=target+"px";
+				clearInterval(element.timer);
+			}
+		},30);
+	}
+	
+	function move1(element,target){
+		clearInterval(element.timer);
+		
+		element.timer=setInterval(function(){
+			var step=(target-element.offsetLeft)/10;
+			step=target>element.offsetLeft ? Math.ceil(step) : Math.floor(step);
+			var val=target-element.offsetLeft;
+			element.style.left=element.offsetLeft+step+"px";
+			if(Math.abs(val)<=Math.abs(step)){
+				element.style.left=target+"px";
+				clearInterval(element.timer);
+			}
+		},30);
+		
+	}
+	
+	//decoration为方向top 或left   move1(img1,500,"top");
+	function move2(element,target,decoration){
+			clearInterval(element.timer);
+			element.timer=setInterval(function(){
+				if(decoration==="left"){
+					var step=(target-element.offsetLeft)/10;
+					step=target>element.offsetLeft ? Math.ceil(step) : Math.floor(step);
+					var val=target-element.offsetLeft;
+					element.style.left=element.offsetLeft+step+"px";
+					if(Math.abs(val)<=Math.abs(step)){
+						element.style.left=target+"px";
+						clearInterval(element.timer);
+					}
+				}
+				else{
+					var step=(target-element.offsetTop)/10;
+					step=target>element.offsetTop ? Math.ceil(step) : Math.floor(step);
+					var val=target-element.offsetTop;
+					element.style.top=element.offsetTop+step+"px";
+					if(Math.abs(val)<=Math.abs(step)){
+						element.style.top=target+"px";
+						clearInterval(element.timer);
+					}
+				}
+					
+			},30);
+
+		}
+	
+	function scroll(){
+		return {
+			"left" : window.pageXOffset || document.body.scrollLeft || document.documentElement.scrollLeft,
+			"top": window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop
+			}
+		
+	}
+	
+	console.log(scroll().top);
+</script>
+</body>
+</html>

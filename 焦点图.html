@@ -1,0 +1,224 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	.box{
+		width: 490px;
+		height: 170px;
+		margin: 200px auto;
+		padding: 5px;
+		border: 1px solid #ccc;
+	}
+	.inner{
+		width: 490px;
+		height: 170px;
+		position: relative;
+		overflow: hidden;
+	}
+	ul{
+		width: 610%;
+		position: absolute;
+		left: 0;
+		list-style: none;
+	}
+	li{
+		float: left;
+	}
+	.squart{
+		position: absolute;
+		right: 10px;
+		bottom: 5px;
+	}
+	.squart span{
+		display: inline-block;
+		width: 16px;
+		height: 16px;
+		margin: 3px;
+		background-color: #fff;
+		line-height: 16px;
+		text-align: center;
+		cursor: pointer;
+		color: #555;
+		border-radius: 20%;
+	}
+	.squart .hover{
+		background-color: #22F4BC;
+		color: #fff;
+	}
+	.lrSqu{
+		width: 490px;
+		height: 40px;
+		position: absolute;
+		left: 0;
+		top: 50%;
+		margin-top: -20px;
+	}
+	.lrSqu span{
+		width: 40px;
+		height: 40px;
+		display: inline-block;
+		text-align: center;
+		color:#666;
+		cursor: pointer;
+		font: 800 22px/40px "microsoft yahei";
+		background-color: rgba(37,170,235,0.8);
+	}
+	.lrSqu span.left{
+		float: left;
+		display: none;
+	}
+	.lrSqu span.right{
+		float: right;
+		display: none;
+	}
+	.lrSqu span.show{
+		display: block;
+	}
+</style>
+</head>
+
+<body>
+<div class="box" id="box">
+	<div class="inner" id="inner">
+		<ul>
+			<li><img src="images/01.jpg"></li>
+			<li><img src="images/02.jpg"></li>
+			<li><img src="images/03.jpg"></li>
+			<li><img src="images/04.jpg"></li>
+			<li><img src="images/05.jpg"></li>
+		</ul>
+		<div class="squart">
+			<span class="hover">1</span>
+			<span>2</span>
+			<span>3</span>
+			<span>4</span>
+			<span>5</span>
+		</div>
+		<div class="lrSqu">
+			<span class="left">&lt;</span>
+			<span class="right">&gt;</span>
+		</div>
+	</div>
+</div>
+
+<script>
+	var box=document.getElementById("box");
+	var inner=document.getElementById("inner");
+	var ul=inner.getElementsByTagName("ul")[0];
+	var li=ul.children;
+	var squart=inner.getElementsByClassName("squart")[0];
+	var span=squart.children;
+	var lrSqu=inner.getElementsByClassName("lrSqu")[0];
+	var lrSpan=lrSqu.children;
+	var imgWidth=inner.offsetWidth;
+	
+	var lastLi=li[0].cloneNode(true);
+	ul.appendChild(lastLi);
+	var num1=0;
+	var num2=0;
+	for(var i=0;i<span.length;i++){
+		span[i].index=i;
+		span[i].onmouseover=function(){
+			for(var i=0;i<span.length;i++){
+				span[i].className="";
+			}
+			this.className="hover";
+			num1=num2=this.index;
+			var len=-imgWidth*this.index;
+			move(ul,len,50);
+		}
+	}
+	
+	box.onmouseover=function(){
+		lrSpan[0].className="left show";
+		lrSpan[1].className="right show";
+	}
+	box.onmouseout=function(){
+		lrSpan[0].className="left";
+		lrSpan[1].className="right";
+	}
+	
+	/*var num=-imgWidth;
+	lrSpan[1].onclick=function(){
+		if(num<-490*4){
+			num=0;
+		}
+		move(ul,num,50);
+		num+=-imgWidth;
+	}*/
+	
+	var timer=null;
+	clearInterval(timer);
+	timer=setInterval(tab,2000);
+	inner.onmouseover=function(){
+		clearInterval(timer);
+	}
+	inner.onmouseout=function(){
+		clearInterval(timer);
+		timer=setInterval(tab,2000);
+	}
+	
+	lrSpan[0].onclick=function(){
+		for(var i=0;i<span.length;i++){
+			span[i].className="";
+		}
+		num1--;
+		if(num1<0){
+			num1=span.length-1;
+		}
+		span[num1].className="hover";
+		
+		num2--;
+		if(num2<0){
+			num2=span.length-1;
+			ul.style.left=-(num2+1)*imgWidth+"px";
+			
+		}
+		move(ul,-num2*imgWidth,50);
+	}
+	lrSpan[1].onclick=function(){
+		tab();
+	}
+	
+	//切换图片
+	function tab(){
+		for(var i=0;i<span.length;i++){
+			span[i].className="";
+		}
+		num1++;
+		if(num1>span.length-1){
+			num1=0;
+		}
+		span[num1].className="hover";
+		
+		num2++;
+		if(num2>span.length){
+			ul.style.left="0px";
+			num2=1;
+		}
+		move(ul,-num2*imgWidth,50);
+		
+	}
+	//动画
+	function move(element,target,speed){        //元素，目标点，移动步长（速度）
+		var spe=target>element.offsetLeft ? speed : -speed;
+		clearInterval(element.timer);
+		element.timer=setInterval(function(){
+			var val=target-element.offsetLeft;
+			element.style.left=element.offsetLeft+spe+"px";
+			
+			if(Math.abs(val)<=Math.abs(spe)){
+				element.style.left=target+"px";
+				clearInterval(element.timer);
+			}
+		},30);
+	}
+</script>
+</body>
+</html>

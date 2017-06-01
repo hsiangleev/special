@@ -1,0 +1,339 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	.w{
+		margin: 0 auto;
+		width: 1210px;
+	}
+	.top{
+		width: 100%;
+	}
+	.top p{
+		height:100px;
+		background-color: #979595;
+		text-align: center;
+		font: 500 18px/100px "microsoft yahei";
+	}
+	.img img{
+		width: 1210px;
+		height: 130px;
+	}
+	.img img.fixo{
+		position: fixed;
+		top:0;
+		z-index: 1000;
+	}
+	.box{
+		position: relative;
+	}
+	.box img{
+		position: absolute;
+		z-index: -1;
+		left: 300px;
+	}
+	.nav ul{
+		list-style: none;
+		margin-left: 300px;
+	}
+	.nav li{
+		width: 90px;
+		height: 42px;
+		float: left;
+		text-align: center;
+		cursor: pointer;
+		border: 1px solid #000;
+		font: 500 16px/42px "miscrosoft yahei";
+	}
+	.container{
+		width: 900px;
+		height: 3000px;
+		border: 1px solid #000;
+	}
+	#img1{
+		position: absolute;
+		top:80px;
+		left:10px;
+	}
+	#img2{
+		position: absolute;
+		top:80px;
+		right:10px;
+	}
+	.container .container-box{
+		width: 490px;
+		height: 170px;
+		padding: 1px;
+		overflow: hidden;
+		position: relative;
+		border: 1px solid #000;
+	}
+	.container ul{
+		width: 606%;
+		position: absolute;
+		list-style: none;
+	}
+	.container li{
+		width: 490px;
+		height: 170px;
+		float: left;
+	}
+	.container .container-box-square{
+		position: absolute;
+		right:10px;
+		bottom: 10px;
+	}
+	.container span{
+		width: 20px;
+		height: 20px;
+		text-align: center;
+		border-radius: 5px;
+		font: 500 18px/20px "microsoift yahei";
+		cursor: pointer;
+		background-color: #fff;
+		display: inline-block;
+	}
+	.container span.current{
+		background-color: #27F1D5;
+		color: #333;
+	}
+	.container .container-box-lr{
+		width: 490px;
+		height: 40px;
+		position: absolute;
+		top: 50%;
+		margin-top: -20px;
+		left: 0;
+		display: none;
+	}
+	.container left , .container right{
+		width: 40px;
+		height: 40px;
+		color: #fff;
+		text-align: center;
+		cursor: pointer;
+		font: 800 24px/40px "microsoft yahei";
+		background-color: #1998F4;
+	}
+	.container left{
+		float: left;
+	}
+	.container right{
+		float: right;
+	}
+	.clearfix{
+		clear: both;
+	}
+	.footer img{
+		position: fixed;
+		right:150px;
+		cursor: pointer;
+		display: none;
+		border: 1px solid #ccc;
+		bottom: 60px;
+	}
+</style>
+<script src="my.js"></script>
+<script>
+	window.onload=function(){
+		//设置头部导航栏
+		var box=document.getElementsByClassName("box")[0];
+		var img=box.children[0];
+		var liArr=box.children[1].children;
+		var liWidth=liArr[0].offsetWidth;
+		//计数器
+		var count=0;
+		for(var i=0;i<liArr.length;i++){
+			liArr[i].index=i;
+			liArr[i].onmouseover=function(){
+				move2(img,300+this.index*liWidth,"left");
+			}
+			liArr[i].onmouseout=function(){
+				move2(img,300+count*liWidth,"left");
+			}
+			liArr[i].onclick=function(){
+				count=this.index;
+				move2(img,300+count*liWidth,"left");
+			}
+		}
+		//设置侧边广告
+		//返回顶部小火箭
+		var container=document.getElementsByClassName("container")[0];
+		var imgArr=container.getElementsByTagName("img");
+		var footer=document.getElementsByClassName("footer")[0];
+		var footImg=footer.children[0];
+		//固定导航栏
+		var oTop=document.getElementsByClassName("top")[0];
+		var divImg=document.getElementsByClassName("img")[0];
+		var oDivImg=divImg.getElementsByTagName("img")[0];
+		window.onscroll=function(){
+			//设置侧边广告
+			var scroTop=scroll().top;
+			move2(imgArr[0],scroTop+80,"top");
+			move2(imgArr[1],scroTop+80,"top");
+			
+			//返回顶部小火箭
+			if(scroTop>500){
+				footImg.style.display="block";
+			}
+			else{
+				footImg.style.display="";
+			}
+			footImg.onclick=function(){
+				move3(0);
+			}
+			//固定导航栏
+			if(scroTop>oTop.offsetHeight){
+				oDivImg.className="fixo";
+				oTop.style.marginBottom=oDivImg.offsetHeight+"px";
+			}
+			else{
+				oDivImg.className="";
+				oTop.style.marginBottom=0;
+			}
+			
+		}
+		
+		//轮播图
+		//1.焦点图
+		var containerBox=container.getElementsByClassName("container-box")[0];
+		var containerUl=containerBox.children[0];
+		var containerSpan=containerBox.children[1].children;
+		var containerLiWidth=containerUl.children[0].offsetWidth;
+		//复制第一张图
+		var liLast=containerUl.children[0].cloneNode(true);
+		containerUl.appendChild(liLast);
+		for(var i=0;i<containerSpan.length;i++){
+			containerSpan[i].index=i;
+			containerSpan[i].onmouseover=function(){
+				for(var j=0;j<containerSpan.length;j++){
+					containerSpan[j].className="";
+				}
+				this.className="current";
+				count1=count2=this.index;
+				move(containerUl,-this.index*containerLiWidth,70);
+			}
+		}
+		//2.定时播放
+		var containerLR=containerBox.children[2];
+		var left=containerLR.children[0];
+		var right=containerLR.children[1];
+		
+		var timer1=null;
+		var count1=0;
+		var count2=0;
+		clearInterval(timer1);
+		timer1=setInterval(autoPlay,1000);
+		containerBox.onmouseover=function(){
+			clearInterval(timer1);
+			containerLR.style.display="block";
+		}
+		containerBox.onmouseout=function(){
+			timer1=setInterval(autoPlay,1000);
+			containerLR.style.display="";
+		}
+		function autoPlay(){
+			count1++;
+			if(count1>containerSpan.length-1){
+				count1=0;
+			}
+			for(var j=0;j<containerSpan.length;j++){
+				containerSpan[j].className="";
+			}
+			containerSpan[count1].className="current";
+			count2++;
+			if(count2>containerSpan.length){
+				count2=1;
+				containerUl.style.left=0;
+			}
+			move(containerUl,-containerLiWidth*count2,80);
+		}
+		left.onclick=function(){
+			count1--;
+			if(count1<0){
+				count1=containerSpan.length-1;
+			}
+			for(var j=0;j<containerSpan.length;j++){
+				containerSpan[j].className="";
+			}
+			containerSpan[count1].className="current";
+			count2--;
+			if(count2<0){
+				count2=containerSpan.length-1;
+				containerUl.style.left=-(containerSpan.length)*containerLiWidth+"px";
+			}
+			move(containerUl,-containerLiWidth*count2,80);
+		}
+		right.onclick=function(){
+			autoPlay();
+		}
+		
+		
+	}
+	
+</script>
+</head>
+
+<body>
+	<div class="top">
+		<div class="w">
+			<p>国网信的历史使命的宏观框明确了中事业肩负的宏观框明确了中</p>
+		</div>
+	</div>
+	<div class="img">
+		<div class="w">
+			<img src="images/01.jpg">
+		</div>
+	</div>
+	<div class="nav">
+		<div class="box w">
+			<img src="images/cloud.gif">
+			<ul>
+				<li>国网信的</li>
+				<li>历史使命</li>
+				<li>的宏观框</li>
+				<li>明确了中</li>
+				<li>事业肩负</li>
+				<li>的宏观框</li>
+				<li>明确了中</li>
+			</ul>
+		</div>
+	</div>
+	<div class="container w clearfix">
+		<img id="img1" src="images/aside.jpg">
+		<img id="img2" src="images/aside.jpg">
+		<div class="container-box">
+			<ul>
+				<li><img src="images/01.jpg"></li>
+				<li><img src="images/02.jpg"></li>
+				<li><img src="images/03.jpg"></li>
+				<li><img src="images/04.jpg"></li>
+				<li><img src="images/05.jpg"></li>
+			</ul>
+			<div class="container-box-square">
+				<span class="current">1</span>
+				<span>2</span>
+				<span>3</span>
+				<span>4</span>
+				<span>5</span>
+			</div>
+			<div class="container-box-lr">
+				<left>&gt;</left>
+				<right>&lt;</right>
+			</div>
+		</div>
+	</div>
+	<div class="footer">
+		<img src="images/Top.jpg">
+	</div>
+	
+	
+	
+</body>
+</html>

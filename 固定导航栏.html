@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+	#top{
+		width: 100%;
+		height:200px;
+		margin: 0 auto;
+		background-color: #ccc;
+	}
+	#center{
+		width: 100%;
+		height:200px;
+		margin: 0 auto;
+		background-color: #1FF098;
+	}
+	.fixo{
+		position: fixed;
+		top:0;
+		left: 0;
+	}
+	#bto{
+		width: 100%;
+		height:800px;
+		margin: 0 auto;
+		background-color: #aaa;
+	}
+</style>
+
+</head>
+
+<body>
+
+<div id="top">1</div>
+<div id="center">2</div>
+<div id="bto">3</div>
+
+<script>
+	
+	var topa=document.getElementById("top");
+	var centera=document.getElementById("center");
+	var bto=document.getElementById("bto");
+	var heightVal=topa.offsetHeight;
+	
+	window.onscroll=function(){
+		console.log(scroll().top);
+		if(scroll().top>heightVal){
+			centera.className="fixo";
+			topa.style.marginBottom=centera.offsetHeight+5+"px";
+		}
+		else{
+			centera.className="";
+			topa.style.marginBottom=0;
+		}
+	}
+	
+	
+	function scroll(){
+		return {
+			"left" : window.pageXOffset || document.body.scrollLeft || document.documentElement.scrollLeft,
+			"top": window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop
+			}
+		
+	}
+	
+</script>
+</body>
+</html>

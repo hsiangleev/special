@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+	.box{
+		width: 400px;
+		height: 550px;
+		margin: 20px auto;
+		position: relative;
+		overflow: hidden;
+		border: 1px solid #000;
+	}	
+	.left{
+		padding: 15px;
+		width: 350px;
+		position: absolute;
+		
+	}
+	.right{
+		width: 30px;
+		height: 550px;
+		background-color: #ccc;
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+	.slide{
+		width: 30px;
+		background-color: #3A0CF7;
+		cursor: pointer;
+		position: absolute;
+		top: 0;
+		border-radius: 15px;
+	}
+</style>
+<script src="my.js"></script>
+<script>
+	window.onload=function(){
+		var box=document.getElementsByClassName("box")[0];
+		var left=box.children[0];
+		var right=box.children[1];
+		var slide=right.children[0];
+		//设置滚动条高度
+		var slideHeight=box.offsetHeight/left.offsetHeight*right.offsetHeight;
+		slide.style.height=slideHeight+"px";
+		
+		//移动滚动条
+		slide.onmousedown=function(event){
+			event=event || window.event;
+			var pagey=event.pageY || scroll().top+event.clientY;
+			var y=pagey-slide.offsetTop;
+			document.onmousemove=function(event){
+				event=event || window.event;
+				var pageyy=event.pageY || scroll().top+event.clientY;
+				pageyy-=y;
+				if(pageyy<0){
+					pageyy=0;
+				}
+				else if(pageyy>right.offsetHeight-slide.offsetHeight){
+					pageyy=right.offsetHeight-slide.offsetHeight;
+				}
+				slide.style.top=pageyy+"px";
+				
+				var k=pageyy*left.offsetHeight/right.offsetHeight;
+				left.style.top=-k+"px";
+				//让被选文字清除。
+                window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+			}
+		}
+		document.onmouseup=function(){
+			document.onmousemove=null;
+		}
+	}
+	
+</script>
+</head>
+
+<body>
+<div class="box">
+	<div class="left">
+			4月23日，合肥都市圈城市党政领导第八次会商会议上，合肥、淮南、六安、滁州、芜湖、马鞍山、桐城等七个城市，一口气签署了交通、工业、农业、科技、商贸、旅游、环境保护、人才等八个方面的框架合作协议。
+　　高速公路
+　　力争提前实施宁洛高速淮南连接线
+　　在高速公路方面，框架协议明确，今年各市要服务保障业主单位，推进德上高速、合宁、合巢芜、合六高速扩容工程，滁新高速（滁州~淮南段）、G42S岳武高速东延线、沿淮高速和合肥至霍邱至阜阳高速公路、合六南部高速等高速公路的前期工作和建设施工。
+　　另外，合肥、滁州两市还将共同加快明巢高速建设；并共同呼吁省级主管部门，提前实施宁和高速、宁洛高速淮南连接线，在相关高速建设中，预留互通道口和横向通道。
+　　国道项目
+　　G206（吴山~岗集）3公里一期通车
+　　G206涉及淮南、合肥、六安和桐城，全长219.9公里。其中，淮南段36.7公里，洛河至曹庵段25公里一级公路改建；合肥段110公里，已改造完成84公里，剩余吴山至南岗段26公里一级公路新建；六安段约37.5公里；桐城段35.71公里。　按照协议，今年合肥段将开工建设，吴山至岗集3公里一期工程建成通车；六安段完成孔集至小关段23公里路基工程；桐城段全面开工建设；淮南段完成项目施工图设计。G329店埠至定远界全面开建G329涉及合肥、滁州和马鞍山，全长222.6公里，其中：合肥段92.5公里，滁州段89.5公里；马鞍山段40.6公里。
+　　今年，合肥段店埠至定远界43公里将全面开工建设，其余路段完成前期工作；滁州段继续推进前期工作；马鞍山段完成前期工作。
+　　G346涉及六安、合肥和马鞍山，全长约106.5公里。其中，六安段约21.5公里，合肥段25公里，马鞍山段60公里已于2012年改建完成。
+　　按照协议，今年六安段完成舒城五显至金安区毛坦厂15.5公里路基工程，开工建设舒城军埠段6公里一级公路；合肥段开工建设。
+　　G237六安段部分建成
+　　国道项目
+　　G206（吴山~岗集）3公里一期通车
+　　G206涉及淮南、合肥、六安和桐城，全长219.9公里。其中，淮南段36.7公里，洛河至曹庵段25公里一级公路改建；合肥段110公里，已改造完成84公里，剩余吴山至南岗段26公里一级公路新建；六安段约37.5公里；桐城段35.71公里。　按照协议，今年合肥段将开工建设，吴山至岗集3公里一期工程建成通车；六安段完成孔集至小关段23公里路基工程；桐城段全面开工建设；淮南段完成项目施工图设计。G329店埠至定远界全面开建G329涉及合肥、滁州和马鞍山，全长222.6公里，其中：合肥段92.5公里，滁州段89.5公里；马鞍山段40.6公里。
+　　今年，合肥段店埠至定远界43公里将全面开工建设，其余路段完成前期工作；滁州段继续推进前期工作；马鞍山段完成前期工作。
+　　G346涉及六安、合肥和马鞍山，全长约106.5公里。其中，六安段约21.5公里，合肥段25公里，马鞍山段60公里已于2012年改建完成。
+　　按照协议，今年六安段完成舒城五显至金安区毛坦厂15.5公里路基工程，开工建设舒城军埠段6公里一级公路；合肥段开工建设。
+　　G237六安段部分建成
+　　G237全长32公里，涉及六安和淮南。其中，六安段17公里；淮南段寿县九龙至堰口15公里。今年，六安段建成合六叶高速公路六安北互通至农科所3.5公里一级公路；淮南段寿县九龙至堰口开工建设。
+　　G328全长180.5公里，涉及淮南、滁州。按要求，今年，淮南寿县段要完成工程可行性研究报批；滁州段推进前期工作。另外， G312全长125公里，涉及合肥与滁州。按要求，今年合肥段要完成前期工作，滁州段推进前期工作。
+　　---------------------------
+		
+	</div>
+	<div class="right">
+		<div class="slide">
+			
+		</div>
+	</div>
+</div>
+</body>
+</html>

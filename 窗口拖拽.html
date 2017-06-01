@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+	.box{
+		width: 300px;
+		height: 300px;
+		border: 1px solid #000;
+		position: absolute;
+	}	
+	.top{
+		width: 300px;
+		height: 40px;
+		text-align: center;
+		line-height: 40px;
+		cursor: move;
+		background-color: rgba(37,161,240,1.00);
+		
+	}
+</style>
+<script src="my.js"></script>
+<script>
+	window.onload=function(){
+		var box=document.getElementsByClassName("box")[0];
+		var top=box.children[0];
+		var content=box.children[1];
+		
+		top.onmousedown=function(event){
+			event=event||window.event;
+			var pagexx=event.pageX||scroll().left+event.clientX;
+			var pageyy=event.pageY||scroll().top+event.clientY;
+			var x=pagexx-box.offsetLeft;
+			var y=pageyy-box.offsetTop;
+			
+			document.onmousemove=function(event){
+				event=event||window.event;
+				var pagex=event.pageX||scroll().left+event.clientX;
+				var pagey=event.pageY||scroll().top+event.clientY;
+				pagex=pagex-x;
+				pagey=pagey-y;
+				
+				box.style.left=pagex+"px";
+				box.style.top=pagey+"px";
+				
+				//禁止文本选中（选中后取消）
+                window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+			}
+		}
+		top.onmouseup=function(){
+			document.onmousemove=null;
+		}
+	}
+	
+</script>
+</head>
+
+<body>
+<div class="box">
+	<div class="top">按住开始拖拽</div>
+	<div class="content"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+	img{
+		width: 100px;
+		border: 1px solid #000;
+		position: absolute;
+		cursor: pointer;
+	}	
+	
+</style>
+<script src="my.js"></script>
+</head>
+
+<body>
+	<img src="images/img.jpg">
+	<script>
+		//需求：鼠标点击屏幕任意位置
+		var img=document.getElementsByTagName("img")[0];
+		var timer=null;
+		var targetX=0;var targetY=0;
+		var leaderX=0;var leaderY=0;
+		document.onclick=function(event){
+			event=event||window.event;
+			var pagey=event.pageY || scroll().top+event.clientY;
+			targetY=pagey-img.offsetHeight/2;
+			leaderY=img.offsetTop;
+			
+			var pageX=event.pagex || scroll().left+event.clientX;
+			targetX=pageX-img.offsetWidth/2;
+			leaderX=img.offsetLeft;
+			//设置滑动效果
+			clearInterval(timer);
+			timer=setInterval(function(){
+				var stepY=(targetY-leaderY)/10;
+				stepY=stepY>0 ? Math.ceil(stepY):Math.floor(stepY);
+				leaderY=leaderY+stepY;
+				img.style.top=leaderY+"px";
+				
+				var stepX=(targetX-leaderX)/10;
+				stepX=stepX>0 ? Math.ceil(stepX):Math.floor(stepX);
+				leaderX=leaderX+stepX;
+				img.style.left=leaderX+"px";
+				
+				if(Math.abs(targetY-leaderY)<=Math.abs(stepY) &&
+				   Math.abs(targetX-leaderX)<=Math.abs(stepX)
+				  ){
+					img.style.top=targetY+"px";
+					img.style.left=targetX+"px";
+					clearInterval(timer);
+				}
+			},30);
+			
+		}
+	
+	</script>
+</body>
+</html>

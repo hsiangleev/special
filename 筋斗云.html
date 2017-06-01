@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		body{
+			background-color: #4D4B4B;
+		}
+		.box{
+			width: 800px;
+			height: 42px;
+			background: #fff url(images/wifi.png) no-repeat right top;
+			margin: 200px auto;
+			border-radius: 10px;
+			position: relative;
+		}
+		ul{
+			list-style: none;
+			position: absolute;
+		}
+		li{
+			width: 90px;
+			height: 42px;
+			float: left;
+			text-align: center;
+			cursor: pointer;
+			font: 500 16px/42px "miscrosoft yahei";
+		}
+		span{
+			width: 90px;
+			height: 42px;
+			position: absolute;
+			top: 0;
+			left: 0;
+			background: url(images/cloud.gif) no-repeat;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="box">
+		<span></span>
+		<ul>
+			<li>国网信的</li>
+			<li>历史使命</li>
+			<li>的宏观框</li>
+			<li>明确了中</li>
+			<li>事业肩负</li>
+			<li>的宏观框</li>
+			<li>明确了中</li>
+		</ul>
+	</div>
+	
+	<script>
+		var span=document.getElementsByTagName("span")[0];
+		var liArr=document.getElementsByTagName("li");
+		var liWidth=liArr[1].offsetWidth;
+		//计数器
+		var count=0;
+		for(var i=0;i<liArr.length;i++){
+			liArr[i].index=i;
+			liArr[i].onmouseover=function(){
+				move1(span,liWidth*this.index);
+			}
+			liArr[i].onmouseout=function(){
+				move1(span,liWidth*count);
+			}
+			liArr[i].onclick=function(){
+				count=this.index;
+				move1(span,liWidth*count);
+			}
+			
+		}
+		//缓动动画
+		function move1(element,target){
+			clearInterval(element.timer);
+			element.timer=setInterval(function(){
+				var step=(target-element.offsetLeft)/10;
+				step=target>element.offsetLeft ? Math.ceil(step) : Math.floor(step);
+				var val=target-element.offsetLeft;
+				element.style.left=element.offsetLeft+step+"px";
+				if(Math.abs(val)<=Math.abs(step)){
+					element.style.left=target+"px";
+					clearInterval(element.timer);
+				}
+		},15);
+		
+	}
+	</script>
+</body>
+</html>

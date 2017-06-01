@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+	<style>
+		#img1{
+			position: absolute;
+			top:100px;
+			left: 10px;
+		}
+		#img2{
+			position: absolute;
+			top:100px;
+			right: 10px;
+		}
+		#div1{
+			margin: 100px auto;
+			width: 300px;
+			height: 5000px;
+			border: 1px solid #000;
+		}
+	
+	</style>
+</head>
+
+<body>
+	<img id="img1" src="images/aside.jpg">
+	<img id="img2" src="images/aside.jpg">
+	<div id="div1">
+		
+	</div>
+	
+	
+	<script>
+		
+		var img1=document.getElementById("img1");
+		var img2=document.getElementById("img2");
+		var div1=document.getElementById("div1");
+		
+		window.onscroll=function(){
+			var scroTop=scroll().top;
+			move1(img1,scroTop+100,"top");
+			move1(img2,scroTop+100,"top");
+		}
+		
+		function move1(element,target,decoration){
+			clearInterval(element.timer);
+
+			element.timer=setInterval(function(){
+				if(decoration==="left"){
+					var step=(target-element.offsetLeft)/10;
+					step=target>element.offsetLeft ? Math.ceil(step) : Math.floor(step);
+					var val=target-element.offsetLeft;
+					element.style.left=element.offsetLeft+step+"px";
+					if(Math.abs(val)<=Math.abs(step)){
+						element.style.left=target+"px";
+						clearInterval(element.timer);
+					}
+				}
+				else{
+					var step=(target-element.offsetTop)/10;
+					step=target>element.offsetTop ? Math.ceil(step) : Math.floor(step);
+					var val=target-element.offsetTop;
+					element.style.top=element.offsetTop+step+"px";
+					if(Math.abs(val)<=Math.abs(step)){
+						element.style.top=target+"px";
+						clearInterval(element.timer);
+					}
+				}
+					
+			},30);
+
+		}
+
+		function scroll(){
+			return {
+				"left" : window.pageXOffset || document.body.scrollLeft || document.documentElement.scrollLeft,
+				"top": window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop
+				}
+
+		}
+	
+	</script>
+</body>
+</html>

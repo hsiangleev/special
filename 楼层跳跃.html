@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	html,body{
+		height: 100%;
+	}
+	ul{
+		list-style: none;
+		position: fixed;
+		top: 100px;
+		right: 50px;
+	}
+	ul li{
+		width: 50px;
+		height: 50px;
+		text-align: center;
+		line-height: 50px;
+		border: 1px solid #000;
+		cursor: pointer;
+			
+	}
+	ol{
+		list-style: none;
+		height: 100%;
+	}
+	ol li{
+		height: 100%;
+	}
+</style>
+<script src="my.js"></script>
+<script>
+	window.onload=function(){
+		//需求：点击ul中的li，跳转到ol中的li区域
+		//获取事件源
+		var ol=document.getElementsByTagName("ol")[0];
+		var olLiArr=ol.children;
+		var ul=document.getElementsByTagName("ul")[0];
+		var ulLiArr=ul.children;
+		var timer=null;
+		var target=0;
+		var leader=0;
+		//定义背景色数组
+		var arr=["orange","green","blue","yellow","red"];
+		for(var i=0;i<olLiArr.length;i++){
+			olLiArr[i].style.backgroundColor=arr[i];
+			ulLiArr[i].style.backgroundColor=arr[i];
+			ulLiArr[i].index=i;
+			ulLiArr[i].onclick=function(){
+				target=olLiArr[this.index].offsetTop;
+				clearInterval(timer);
+				timer=setInterval(function(){
+					var step=(target-leader)/10;
+					step=step>0?Math.ceil(step):Math.floor(step);
+					leader=leader+step;
+					window.scrollTo(0,leader);
+					if(Math.abs(target-leader)<=Math.floor(step)){
+						window.scrollTo(0,target);
+						clearInterval(timer);
+					}
+				},25);
+				
+				window.onscroll=function(){
+					leader=scroll().top;
+				}
+			}
+		}
+		
+	}
+	
+</script>
+</head>
+
+<body>
+<ol>
+	<li>鞋子区域</li>
+	<li>袜子区域</li>
+	<li>帽子区域</li>
+	<li>褂子区域</li>
+	<li>裙子区域</li>
+</ol>
+<ul>
+	<li>鞋子</li>
+	<li>袜子</li>
+	<li>帽子</li>
+	<li>褂子</li>
+	<li>裙子</li>
+</ul>
+</body>
+</html>
