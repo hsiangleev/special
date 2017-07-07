@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script>
+		window.onload=function () {
+			var btn=document.getElementById("btn");
+			btn.onclick=function (event) {
+				alert(111);
+				// event.stopPropagation();
+			}
+			document.body.onclick=function () {
+				// alert(222);
+			}
+			window.onclick=function () {
+				// alert(333);
+			}
+		}
+	</script>
+</head>
+<body>
+	<button id="btn">确定</button>
+</body>
+</html>
